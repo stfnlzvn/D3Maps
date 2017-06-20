@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  link(href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css', rel='stylesheet')
+  link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css", rel="stylesheet")
+  link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet")
+  link(href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css", rel="stylesheet")
+  link(rel='stylesheet', href='/crime/stylesheets/style.css')
+  script(src="https://code.jquery.com/jquery-3.2.1.min.js")
+  script(type="text/javascript", src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+  script(type="text/javascript", src='/dashboard/javascripts/kit/touchPunch.js')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js")
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js")
+
+
+  script( type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.9.1/d3.js")
+  script( type="text/javascript", src="//d3js.org/d3-tile.v0.0.min.js")
+  script( type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.0/topojson.js")
+  script(type="text/javascript",src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4_dVBx9EghvuN_1dNy8vB8oeEj-_4TDw&callback")
+
+
+  script(type="text/javascript", src='/crime/javascripts/table.js')
+  script(type="text/javascript", src='/crime/javascripts/map.js')
+  script(type="text/javascript", src='/crime/javascripts/histo.js')
+  #vport
+    #map
+    #histo
+    #pop-up.table-c
+ 
+  #helpModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLabel.modal-title About this website
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body
+          | This is a map of crimes that occurred in Greater Manchester in 2015.
+          | Source data can be found here:
+          a(href='https://data.police.uk/data/',target="_blank") Link
+          br
+          br 
+          | Crime location hotspots are outlined by the red circles. The number refers to the number of unique crime locations found in its immediate vicinity. Hovering or clicking them will trigger zooming in.
+          br
+          br
+          | Brown circles show the actual crime locations (as found in the dataset). The number refers to the number of crimes recorded at that location. They are only visible at high zoom levels. Hovering or clicking them will open a popup with more details about the crimes. Hovering over a specific crime will highlight the relevant section from the chart below that is a histogram of the total number of crimes.
+          br
+          br
+          | For the best experience please use Google Chrome.
+       
