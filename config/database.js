@@ -24,8 +24,7 @@ function sql(file) {
 
 // Create a QueryFile globally, once per file:
 const sql_load = sql('./sql.sql');
-
-console.log('Data loading started');
+//console.log('Data loading started');
 db.any(sql_load)
   .then(user=> {
       console.log('Data loading finished');

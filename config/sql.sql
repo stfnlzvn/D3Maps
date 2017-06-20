@@ -1,4 +1,4 @@
-
+ CREATE EXTENSION IF NOT EXISTS postgis;
 
 
 CREATE OR REPLACE FUNCTION get_crimes(_x1 float, _y1 float, _x2 float, _y2 float, _zoom int = 1)
