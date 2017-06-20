@@ -1,4 +1,4 @@
-This is a map of crimes that occurred in Greater Manchester in 2015. Source data can be found [here] (https://data.police.uk/data/)
+This is a map of crimes that occurred in Greater Manchester in 2015. Source data can be found here: https://data.police.uk/data/
 
 Crime location hotspots are outlined by the red circles. The number refers to the number of unique crime locations found in its immediate vicinity. Hovering or clicking them will trigger zooming in.
 
