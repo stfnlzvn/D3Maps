@@ -27,7 +27,8 @@ router.get('/allpoints', function(req, res, next) {
 	var b = req.query;
 	db.any('SELECT latitude::numeric(10,6), longitude::numeric(10,6), crimes::bigint as crimes FROM mc_g').then(function(data){
 	   	console.log('crimes>>',data.length);
-	    res.send(data);
+	   	var rdata = data.map(function(e){ return {0: e.longitude, 1: e.latitude, c: e.crimes}});
+	    res.send(rdata);
 	}).catch(function(error) {
 	    console.log(error);
 	}).finally(function() {	});

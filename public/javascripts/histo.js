@@ -83,9 +83,9 @@ var histo = (function(h){
 
 	  bar = bar.enter().append("g").attr('class', 'bar');
 	  bar.append('rect')
-	      //.style("fill", "steelblue")
 	      .attr("x", function(d) { return x(d.date); })
 	      .attr("width", x.bandwidth())
+	      .transition().duration(1000).ease(d3.easeExp)
 	      .attr("y", function(d) { return y(d.value); })
 	      .attr("height", function(d) { return height - y(d.value); });
 

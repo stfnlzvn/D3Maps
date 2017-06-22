@@ -278,6 +278,76 @@ var Map = (function(m){
 
 	});
 
+	/*
+	superCluster - greedy point clustering
+	
+
+	$.ajax({
+
+    url : 'allpoints',
+    type : 'GET',
+
+    dataType:'json',
+    success : function(data) {              
+       cluster(data)
+    },
+    error : function(request,error)
+    {
+        console.log('failed downloading all points')
+    }
+	});
+
+
+	function cluster(data){
+		var gfts = data.map(function(e){return {
+		  "type": "Feature",
+		  "geometry": {
+		    "type": "Point",
+		    "coordinates": [+e['0'], +e['1']]
+		  },
+		  "properties": {
+		    "crimes": +e.c
+		  }
+		}
+
+		var m.cluster = supercluster({
+		  radius: 40,
+		  maxZoom: 20
+		});
+
+		m.cluster.load(gfts);
+
+		add_parent_centres();
+	});
+
+
+	}
+
+	// To do: update each cluster with parent lat long for children animations
+	function add_parent_centres(){
+	
+		for (var z=1, z<20,z++){
+			var cs = m.cluster.getClusters([-180, -85, 180, 85], z);
+			for(var i=0; i<cs.length; i++){
+				var clstr = cs[i];
+				var cdn = getChildren(cs,getClusterExpansionZoom(clstr.properties.cluster_id, z))
+				if(cdn.length>1){
+					for(var ci = 0; i<cdn.length; ci++){
+						var child = cdn[ci];
+						child.properties.parent_coords = {0: clstr.geometry.coordinates.0, 1: clstr.geometry.coordinates.1}
+					}
+				}
+			}	
+		}
+
+
+	}
+
+	
+
+
+	*/
+
 
 
 return m;
