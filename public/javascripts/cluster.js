@@ -13,7 +13,7 @@ var Cluster = (function(c){
 
     dataType:'json',
     success : function(data) {
-    	console.log('cluster data downloaded');         
+    	//console.log('cluster data downloaded');         
        cluster(data)
     },
     error : function(request,error)
@@ -44,7 +44,7 @@ var Cluster = (function(c){
 		cluster.load(gfts);
 
 		c.c = cluster;
-		console.log('cluster is ready');
+		//console.log('cluster is ready');
 		add_parent_centres();
 	}
 

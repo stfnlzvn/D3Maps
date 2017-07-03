@@ -234,7 +234,6 @@ var Map = (function(m){
       		map.setZoom(map.getZoom()+1);
       		var latLng = new google.maps.LatLng(d.latitude, d.longitude);
     			map.panTo(latLng);
-    			d3.selectAll('svg.marker').remove();
       	}
       }
 
@@ -248,7 +247,7 @@ var Map = (function(m){
 	m.get_crimes = function(x1,y1,x2,y2,zoom){
 		var d = $.Deferred();
 		var url = 'crimes';
-		console.log('requested data for extents');
+		//console.log('requested data for extents');
 
 		if( Cluster.c && zoom < 17) {
 			var data = Cluster.c.getClusters([x1,y1,x2,y2], zoom);
@@ -266,15 +265,8 @@ var Map = (function(m){
 		  url: url,
 		  type: 'GET',
 		  contentType: 'application/json',
-		  data: {
-		  	x1: x1,
-		  	y1: y1,
-		  	x2: x2,
-		  	y2: y2,
-		  	zoom: zoom
-		  },
+		  data: { x1:x1,	y1:y1,	x2:x2,	y2:y2, 	zoom: zoom },
 		  success: function(data){
-		  	console.log('ajaxed');
 	      d.resolve(data);
 		  }
 		});
