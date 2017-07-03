@@ -119,7 +119,7 @@ var table = (function(t){
   t.init = function(data){
 
   	// Rename the keys to the desired field namess
-  	data = data.sort(function(a,b){ 		return d3.ascending(a.mnth, b.mnth);  	})
+  	data = data.sort(function(a,b){ 		return d3.ascending(a.mnth, b.mnth) || d3.ascending(a.crime_type, b.crime_type);  	})
   		.map(function(e){
 	  		var d = {};
 	  		d.ID = e.row_no;

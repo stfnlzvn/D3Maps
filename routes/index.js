@@ -25,9 +25,9 @@ router.get('/crimes', function(req, res, next) {
 
 router.get('/allpoints', function(req, res, next) {
 	var b = req.query;
-	db.any('SELECT latitude::numeric(10,6), longitude::numeric(10,6), crimes::bigint as crimes FROM mc_g').then(function(data){
+	db.any('SELECT latitude::numeric(10,6) as y, longitude::numeric(10,6) as x, crimes::bigint as c FROM mc_g').then(function(data){
 	   	console.log('crimes>>',data.length);
-	   	var rdata = data.map(function(e){ return {0: e.longitude, 1: e.latitude, c: e.crimes}});
+	   	var rdata = data.map(function(e){ return {0: e.x, 1: e.y, c: e.c}});
 	    res.send(rdata);
 	}).catch(function(error) {
 	    console.log(error);

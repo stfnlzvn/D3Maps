@@ -1,6 +1,6 @@
 var Map = (function(m){
 
-	var cur_zoom = 12,
+	var cur_zoom = 17,
 		infowindow,
 		map,
 	  prev_zoom = cur_zoom,
@@ -25,7 +25,7 @@ var Map = (function(m){
 	    //'styles': styles,
 	    //mapTypeId: google.maps.MapTypeId.TERRAIN,
 	    maxZoom: 20,
-	    minZoom: 7
+	    minZoom: 0
 	  });
 
 	  map.addListener('bounds_changed', function(){
@@ -35,7 +35,7 @@ var Map = (function(m){
 	  	
 	  	//console.log('on bounds_changed');
 	  });
-
+	  m.m = map;
 
 
     // Add the container when the overlay is added to the map.
@@ -91,10 +91,10 @@ var Map = (function(m){
   	var bounds = map.getBounds(),
 				ne = bounds.getNorthEast(),
 				sw = bounds.getSouthWest(),
-				x1 = ne.lng() || -2.1022,
-				y1 = ne.lat() || 53.4103,
-				x2 = sw.lng() || -2.10337,
-				y2 = sw.lat() || 53.41120;
+				x1 = sw.lng() || -2.1022,
+				y1 = sw.lat() || 53.4103,
+				x2 = ne.lng() || -2.10337,
+				y2 = ne.lat() || 53.41120;
 
 		// Redraw only if the bounds changed
 		//console.log([x1,y1,x2,y2].toString() +'\n' +cur_bounds);
@@ -123,7 +123,7 @@ var Map = (function(m){
 
 			data.sort(function(a,b){return d3.ascending(a.size, b.size)});
 			// map marker radius to values between 6px and 20px
-	    marker_radius.domain(d3.extent(data, function(d) { return d.size; }));
+	    marker_radius.domain([0, d3.max(data, function(d) { return d.size; })]);
       layer.selectAll("svg").remove();
 
       var marker = layer.selectAll("svg")
@@ -145,7 +145,7 @@ var Map = (function(m){
 
       // Add a circle.
       marker.append("circle")
-      	.on('mouseenter', click)
+      	//.on('mouseenter', click)
       	.on('click', click)
         .attr("r", function(d) { return marker_radius(d.size); })
         .attr("cx", function(d) { return marker_radius(d.size) + padding })
@@ -161,7 +161,7 @@ var Map = (function(m){
 
       // remove markers, add some exit transitions later
       marker.exit()
-        .each(display)
+        //.each(display)
         .each(animateOut);
 
       function display(d) {
@@ -248,6 +248,19 @@ var Map = (function(m){
 	m.get_crimes = function(x1,y1,x2,y2,zoom){
 		var d = $.Deferred();
 		var url = 'crimes';
+		console.log('requested data for extents');
+
+		if( Cluster.c && zoom < 17) {
+			var data = Cluster.c.getClusters([x1,y1,x2,y2], zoom);
+			data = data.map(function(e, index){
+				return {row_no: index, longitude: e.geometry.coordinates['0'], latitude: e.geometry.coordinates['1'] 
+				, size: e.properties.crimes || e.properties.point_count
+				, crime_details: (e.properties.crimes)? true : false }
+			});
+
+			d.resolve(data);
+			return d.promise();
+		}
 
 		$.ajax({
 		  url: url,
@@ -261,7 +274,7 @@ var Map = (function(m){
 		  	zoom: zoom
 		  },
 		  success: function(data){
-	  		//console.log(data);
+		  	console.log('ajaxed');
 	      d.resolve(data);
 		  }
 		});
@@ -277,76 +290,6 @@ var Map = (function(m){
     $('#helpModal').modal('show');
 
 	});
-
-	/*
-	superCluster - greedy point clustering
-	
-
-	$.ajax({
-
-    url : 'allpoints',
-    type : 'GET',
-
-    dataType:'json',
-    success : function(data) {              
-       cluster(data)
-    },
-    error : function(request,error)
-    {
-        console.log('failed downloading all points')
-    }
-	});
-
-
-	function cluster(data){
-		var gfts = data.map(function(e){return {
-		  "type": "Feature",
-		  "geometry": {
-		    "type": "Point",
-		    "coordinates": [+e['0'], +e['1']]
-		  },
-		  "properties": {
-		    "crimes": +e.c
-		  }
-		}
-
-		var m.cluster = supercluster({
-		  radius: 40,
-		  maxZoom: 20
-		});
-
-		m.cluster.load(gfts);
-
-		add_parent_centres();
-	});
-
-
-	}
-
-	// To do: update each cluster with parent lat long for children animations
-	function add_parent_centres(){
-	
-		for (var z=1, z<20,z++){
-			var cs = m.cluster.getClusters([-180, -85, 180, 85], z);
-			for(var i=0; i<cs.length; i++){
-				var clstr = cs[i];
-				var cdn = getChildren(cs,getClusterExpansionZoom(clstr.properties.cluster_id, z))
-				if(cdn.length>1){
-					for(var ci = 0; i<cdn.length; ci++){
-						var child = cdn[ci];
-						child.properties.parent_coords = {0: clstr.geometry.coordinates.0, 1: clstr.geometry.coordinates.1}
-					}
-				}
-			}	
-		}
-
-
-	}
-
-	
-
-
-	*/
 
 
 
